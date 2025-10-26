@@ -27,8 +27,8 @@ yarn dev
 ### Build for Production
 
 ```bash
-npm run build
-npm start
+yarn build
+yarn start
 ```
 
 ## Architectural Decisions
