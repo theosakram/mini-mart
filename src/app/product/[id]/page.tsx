@@ -1,6 +1,14 @@
-import BackButton from "@/components/BackButton";
-import ProductDetailCard from "@/components/ProductDetailCard";
+import { Suspense } from "react";
+import BackButton from "@/uikit/components/BackButton";
+import ProductDetailCard from "@/uikit/components/ProductDetailCard";
+import ProductDetailLoadingSkeleton from "@/uikit/components/ProductDetailLoadingSkeleton";
 import { getProductById } from "@/lib/api";
+
+async function ProductDetail({ id }: { id: string }) {
+  const product = await getProductById(id);
+
+  return <ProductDetailCard product={product} />;
+}
 
 export default async function ProductPage({
   params,
@@ -8,14 +16,16 @@ export default async function ProductPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const product = await getProductById(id);
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
       <div className="mb-4">
         <BackButton />
       </div>
-      <ProductDetailCard product={product} />
+
+      <Suspense fallback={<ProductDetailLoadingSkeleton />}>
+        <ProductDetail id={id} />
+      </Suspense>
     </div>
   );
 }

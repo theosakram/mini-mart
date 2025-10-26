@@ -2,10 +2,8 @@ import { Product } from "@/types";
 
 const apiURL = "https://dummyjson.com";
 
-export async function getProducts(
-  limit = 20,
-): Promise<{ products: Array<Product> }> {
-  const res = await fetch(`${apiURL}/products?limit=${limit}`, {
+export async function getProducts(): Promise<{ products: Array<Product> }> {
+  const res = await fetch(`${apiURL}/products`, {
     next: { revalidate: 60 * 60 },
   });
   if (!res.ok) throw new Error("Failed to fetch products");
